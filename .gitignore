@@ -1,0 +1,5 @@
+.git/
+.idea/
+./nginx-conf/ssl/
+./app/node_modules/
+.env

@@ -1,0 +1,54 @@
+# Default server configuration
+#
+server {
+        listen 80;
+        listen [::]:80  ipv6only=on;
+
+        listen 443 ssl;
+        listen [::]:443 ssl;
+
+        root /usr/share/nginx/html;
+        index index.php;
+        ssl_certificate /etc/nginx/ssl/nginx.crt;
+        ssl_certificate_key /etc/nginx/ssl/nginx.key;   
+        server_name localhost;
+
+        location / {
+            index  index.php;
+            try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+            include snippets/fastcgi-php.conf;
+            fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+            
+        }
+
+        error_page 404 /404.html;
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+           root /usr/share/nginx/html;
+        }
+        location ~ /\.ht {
+           deny all;
+        }
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#       listen 80;
+#       listen [::]:80;
+#
+#       server_name example.com;
+#
+#       root /var/www/example.com;
+#       index index.html;
+#
+#       location / {
+#               try_files $uri $uri/ =404;
+#       }
